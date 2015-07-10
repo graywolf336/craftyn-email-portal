@@ -97,7 +97,7 @@ app.get('/api/status/emails', user.ensureAuthenticated, emails.getStatus);
 //The /client folder contains all the client files
 app.use(express.static('client'));
 
-var server = app.listen(3000, function() {
+var server = app.listen(config.port, function() {
     console.log('Craftyn Email Application'.cyan + ' started on:'.yellow + ' %s'.red, server.address().port);
 });
 

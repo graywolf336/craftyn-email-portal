@@ -1,5 +1,6 @@
 {
     "url": "https://example.com",
+    "port": 3000,
     "mandrill_api_key": "abc123",
     "mongo": {
         "connection": "mongodb://user:{password}@example.com/database",
