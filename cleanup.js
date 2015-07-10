@@ -1,9 +1,9 @@
 exports.CleanUp = function CleanUp(callback) {
     // catch ctrl+c event and exit normally if the returned
-    //value was true, otherwise we will keep it running
+    //value was false, otherwise we will keep it running
     //so something can keep going until finished.
     process.on('SIGINT', function() {
-        if(callback())
+        if(!callback())
             process.exit(2);
         else
             console.log('Stopping stopped.'.red);

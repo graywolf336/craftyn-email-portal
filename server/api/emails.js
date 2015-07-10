@@ -200,6 +200,9 @@ module.exports = function(q, api, config) {
             }
 
             return defer.promise;
+        },
+        dontUseAsItDoesntUseAPromiseButGetSendingStatus: function() {
+            return sending;
         }
     }
 }

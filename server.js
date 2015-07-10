@@ -101,8 +101,17 @@ var server = app.listen(config.port, function() {
     console.log('Craftyn Email Application'.cyan + ' started on:'.yellow + ' %s'.red, server.address().port);
 });
 
+var stopped = false;
 //clean up anything when the server goes down
 require('./cleanup').CleanUp(function() {
-    console.log('Going down!'.red);
-    return true;
+    var status = api.emails.dontUseAsItDoesntUseAPromiseButGetSendingStatus();
+
+    if(status.running && !stopped) {
+        console.log('The emails are sending, press control->c again if you want to go down.'.bold.red);
+        stopped = true;
+        return true;
+    }else {
+        console.log('Going down!'.bold.red);
+        return false;
+    }
 });
