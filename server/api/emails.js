@@ -182,9 +182,13 @@ module.exports = function(q, api, config) {
             }, function(error) {
                 if(error) {
                     defer.reject(error);
+                    email.status = 'Errored';
+                    email.save();
                 }else {
                     sending.running = false;
                     defer.resolve({ details: sending });
+                    email.status = 'Finished';
+                    email.save();
                 }
             });
 
