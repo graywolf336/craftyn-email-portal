@@ -78,6 +78,7 @@ app.delete('/api/user', user.logout);
 //Forum users methods/apis
 app.get('/api/users', user.ensureAuthenticated, user.getAll);
 app.get('/api/users/performDownload', user.ensureAuthenticated, user.performDownload);
+app.get('/api/users/unsubscribed', user.ensureAuthenticated, user.getUnsubscribed);
 app.get('/email/:email/:id', user.displayEmail);
 app.get('/unsubscribe', user.unsubscribe);
 

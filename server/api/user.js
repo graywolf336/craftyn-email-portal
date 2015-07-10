@@ -1,5 +1,7 @@
 var request = require('superagent');
 
+//This file could use a little reworking, it wasn't planned out
+//very well and everything got thrown together
 module.exports = function(q, api, config) {
     var noSendDomains = require('../no-send-domains');
     var creatingAndUpdating = { running: false, finished: 0, errored: 0, total: 0 };
@@ -94,6 +96,22 @@ module.exports = function(q, api, config) {
             }, function(error) {
                 console.log('Errored out unsubscribing ' + email + ' from future emails.');
                 defer.reject({ code: 500, message: 'An internal error occured unsubscribing you from future emails, please report this to graywolf336.', error: error });
+            });
+
+            return defer.promise;
+        },
+        getUnsubscribed: function(all) {
+            var defer = q.defer();
+
+            var query = { unsubscribed: true };
+            //if they want all of them, don't include this
+            if(!all) query.email = { $ne: "N/A" };
+
+            api.models.User.find(query).exec().then(function(users) {
+                defer.resolve(users);
+            }, function(error) {
+                console.log('Error getting everyone who has unsubscribed:', error);
+                defer.reject({ code: 500, message: 'An internal error occured while getting unsubscribed users, report this to graywolf336.', error: error });
             });
 
             return defer.promise;

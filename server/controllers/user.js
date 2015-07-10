@@ -59,6 +59,13 @@ module.exports = function(api) {
                 res.status(error.code).json({ message: error.message, error: error.details });
             });
         },
+        getUnsubscribed: function(req, res) {
+            api.user.getUnsubscribed(req.query.all).then(function(users) {
+                res.json(users);
+            }, function(error) {
+                res.status(error.code).json({ message: error.message, error: error.details });
+            });
+        },
         performDownload: function(req, res) {
             console.log('Starting to perform user retriveal.');
             api.user.retrieveAllUsersFromTheForums().then(function(forumUsers) {
