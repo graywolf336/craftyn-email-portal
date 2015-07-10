@@ -1,5 +1,6 @@
 module.exports = function(q, api, config) {
     var sending = { running: false, finished: 0, errors: [], errored: 0, total: 0 };
+    var noneUsernames = ['n/a', 'mojang', 'premium', 'yes', 'asd', 'asdasdas', 'asdfas', 'mojan', 'craftyn', 'fgdg'];
 
     return {
         get: function() {
@@ -84,7 +85,8 @@ module.exports = function(q, api, config) {
                     }else {
                         console.log('Now emailing: ' + user.username);
 
-                        var username = user.minecraft === 'N/A' || user.minecraft.toLowerCase() === 'mojang' || user.minecraft.toLowerCase() === 'premium' ? user.username : user.minecraft;
+                        //use their minecraft username provided IF it isn't one of the placeholder style ones
+                        var username = noneUsernames.indexOf(user.minecraft.toLowerCase()) === -1 ? user.username : user.minecraft;
                         var date = new Date();
                         var message = {
                             html: email.body.html.replace(/\\/g, "").replace(/{url}/g, config.url).replace(/{username}/g, username).replace(/{email}/g, user.email).replace(/{year}/g, date.getFullYear()).replace(/{id}/g, email._id.toString()).replace(/{userid}/g, user._id.toString()),
