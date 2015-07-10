@@ -21,7 +21,7 @@ var config = require('./server/config');
 
 //Configure the database connection
 var mongoose = require('mongoose');
-mongoose.connect(config.mongo_connection);
+mongoose.connect(config.mongo.password ? config.mongo.connection.replace(/{password}/g, config.mongo.password) : config.mongo.connection);
 mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
 mongoose.connection.once('open', function (callback) {
     console.log('Mongoose Connection successfully opened.'.green);

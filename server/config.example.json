@@ -1,7 +1,10 @@
 {
     "url": "https://example.com",
     "mandrill_api_key": "abc123",
-    "mongo_connection": "mongodb://localhost/email",
+    "mongo": {
+        "connection": "mongodb://user:{password}@example.com/database",
+        "password": "p@ssw0rd"
+    },
     "redis_session_store_secret": "a secret",
     "xenapi": {
         "key": "abc123",
