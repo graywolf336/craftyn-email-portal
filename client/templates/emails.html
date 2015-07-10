@@ -28,7 +28,6 @@
                         <td>Date</td>
                         <td>Status</td>
                         <td>Action</td>
-                        <td>Count</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -37,13 +36,12 @@
                         <td>{{ e.date | date }}</td>
                         <td>{{ e.status }}</td>
                         <td><button type="button" class="btn btn-default" ng-click="action(e)" ng-disabled="e.status === 'Completed'">{{ e.status === 'New' ? 'Start' : 'Pause' }}</button></td>
-                        <td>{{ e.count.sent + '/' + e.count.goal }}</td>
                     </tr>
                     <tr ng-if="!busy && !emails.length">
-                        <td colspan="5">No emails found...</td>
+                        <td colspan="4">No emails found...</td>
                     </tr>
                     <tr ng-if="busy">
-                        <td colspan="5">Loading emails....</td>
+                        <td colspan="4">Loading emails....</td>
                     </tr>
                 </tbody>
             </table>
