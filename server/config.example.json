@@ -12,6 +12,7 @@
         "url": "https://www.example.com/api.php"
     },
     "email": {
+        "send": true,
         "from": {
             "email": "example@example.com",
             "name": "Example"

@@ -104,14 +104,20 @@ module.exports = function(q, api, config) {
                         user.emails.push({ id: email._id, email: message.html, subject: email.subject });
                         user.save();
 
-                        api.mandrill.messages.send({ message: message }, function(result) {
+                        if(config.email.send) {
+                            api.mandrill.messages.send({ message: message }, function(result) {
+                                sending.finished++;
+                                callback();
+                            }, function(error) {
+                                sending.errored++;
+                                sending.errors.push(error);
+                                callback(error);
+                            });
+                        }else {
+                            //since we're not supposed to send, fake finished
                             sending.finished++;
                             callback();
-                        }, function(error) {
-                            sending.errored++;
-                            sending.errors.push(error);
-                            callback(error);
-                        });
+                        }
                     }
                 })
             }, function(error) {
