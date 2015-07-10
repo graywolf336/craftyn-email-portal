@@ -11,6 +11,11 @@ var fs = require('fs');
 var q = require('q');
 var app = express();
 
+if(!fs.existsSync('./server/config.json')) {
+    console.error('The "server/config.json" file must exist.'.red);
+    process.exit(1);
+}
+
 //Get our configuration
 var config = require('./server/config');
 
