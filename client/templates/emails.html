@@ -35,7 +35,14 @@
                         <td>{{ e.subject }}</td>
                         <td>{{ e.date | date }}</td>
                         <td>{{ e.status }}</td>
-                        <td><button type="button" class="btn btn-default" ng-click="action(e)" ng-disabled="e.status === 'Completed'">{{ e.status === 'New' ? 'Start' : 'Pause' }}</button></td>
+                        <td>
+                            <button type="button" class="btn btn-default" ng-click="action(e)" ng-disabled="e.status === 'Completed'" ng-if="e.status !== 'Finished'">
+                                {{ e.status === 'New' ? 'Start' : 'Pause' }}
+                            </button>
+                            <button type="button" class="btn btn-default" disabled="true" ng-if="e.status === 'Finished'">
+                                Status
+                            </button>
+                        </td>
                     </tr>
                     <tr ng-if="!busy && !emails.length">
                         <td colspan="4">No emails found...</td>
