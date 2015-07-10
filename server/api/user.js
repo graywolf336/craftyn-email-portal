@@ -40,7 +40,7 @@ module.exports = function(q, api, config) {
                 .send({
                     action: 'getUsers',
                     value: '*',
-                    limit: Number.MAX_SAFE_INTEGER,
+                    limit: 50000,
                     hash: config.xenapi.key
                 }).end(function (error, data) {
                     if(error) {
