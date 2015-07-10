@@ -11,7 +11,13 @@
 
 <div class="row">
     <div class="col-sm-12" ng-if="status.running">
-        <progressbar class="progress-striped active" max="status.total" value="status.finished + status.errored"><span style="color:white; white-space:nowrap;">{{ status.finished + status.errored }} / {{ status.total }}</span></progressbar>
+        <progress class="progress-striped active" max="100">
+            <bar value="(status.finished * 100) / status.total" type="success">{{ status.finished }}</bar>
+            <bar value="(status.errored * 100) / status.total" type="danger">{{ status.errored }}</bar>
+            <bar value="(status.rejected * 100) / status.total" type="warning">{{ status.rejected }}</bar>
+            <bar value="(status.queued * 100) / status.total" type="info">{{ status.queued }}</bar>
+            <bar value="(status.scheduled * 100) / status.total" type="primary">{{ status.scheduled }}</bar>
+        </progress>
     </div>
     <div class="col-sm-12">
         <div class="table-responsive">

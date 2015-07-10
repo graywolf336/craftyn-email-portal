@@ -1,5 +1,5 @@
 module.exports = function(q, api, config) {
-    var sending = { running: false, finished: 0, errors: [], errored: 0, total: 0 };
+    var sending = { running: false, errors: [], finished: 0, queued: 0, scheduled: 0, rejected: 0, errored: 0, total: 0 };
     var noneUsernames = ['n/a', 'mojang', 'premium', 'yes', 'asd', 'asdasdas', 'asdfas', 'mojan', 'craftyn', 'fgdg'];
 
     return {
@@ -62,14 +62,16 @@ module.exports = function(q, api, config) {
             }
 
             //reset the progress
-            sending = { finished: 0, errored: 0, total: 0, errors: [] }
+            sending = { running: false, errors: [], finished: 0, queued: 0, scheduled: 0, rejected: 0, errored: 0, total: 0 };
 
             //Update the email to in progress
             email.status = 'In Progress';
             email.save();
 
             //we are hard limited to 2,951 an hour
-            var limiter = new api.RateLimiter(42, 'minute');
+            //If we are to send email, set the rate to be 42 a minute
+            //otherwise this is just a test and we need to see results
+            var limiter = new api.RateLimiter(config.email.send ? 42 : 1000, 'minute');
             sending.running = true;
             sending.finished = 0;
             sending.errors = [];
@@ -83,8 +85,6 @@ module.exports = function(q, api, config) {
                         sending.errors.push(err);
                         callback(err);
                     }else {
-                        console.log('Now emailing: ' + user.username);
-
                         //use their minecraft username provided IF it isn't one of the placeholder style ones
                         var username = noneUsernames.indexOf(user.minecraft.toLowerCase()) === -1 ? user.username : user.minecraft;
                         var date = new Date();
@@ -102,22 +102,79 @@ module.exports = function(q, api, config) {
                             track_opens: config.email.track.opens,
                             track_clicks: config.email.track.clicks
                         }
-                        console.log(message);
+
                         user.emails.push({ id: email._id, email: message.html, subject: email.subject });
                         user.save();
 
                         if(config.email.send) {
                             api.mandrill.messages.send({ message: message }, function(result) {
-                                sending.finished++;
+                                result = result[0];
+
+                                switch(result.status) {
+                                    case 'sent':
+                                        console.log('Email success sent to:'.green, user.username, '-', user.email);
+                                        sending.finished++;
+                                        break;
+                                    case 'queued':
+                                        console.log('Email queued for sending to:'.magenta, user.username, '-', user.email);
+                                        sending.queued++;
+                                        break;
+                                    case 'scheduled':
+                                        console.log('Email scheduled for sending to:'.magenta, user.username, '-', user.email);
+                                        sending.scheduled++;
+                                        break;
+                                    case 'rejected':
+                                        //The email was rejected, unsubscribe them from our system.
+                                        user.unsubscribed = true;
+                                        user.save();
+                                        console.log('Email was rejected (' + result.reject_reason + ') for sending to:'.red, user.username, '-', user.email);
+                                        sending.rejected++;
+                                        break;
+                                    case 'invalid':
+                                        console.log('Email was invalid for sending to:'.yellow, user.username, '-', user.email);
+                                        sending.errored++;
+                                        break;
+                                }
+
                                 callback();
                             }, function(error) {
+                                console.log('Email failed to send to:'.red, user.username, '-', user.email, error);
                                 sending.errored++;
                                 sending.errors.push(error);
-                                callback(error);
+                                callback();//we won't pass back the error to the callback, as we don't want it to stop from sending
                             });
                         }else {
-                            //since we're not supposed to send, fake finished
-                            sending.finished++;
+                            //since we're not supposed to send, fake some data
+                            var t = Date.now().toString();
+
+                            switch(t[t.length - 1]) {
+                                case '1':
+                                case '6':
+                                    console.log('Email success sent to:'.green, user.username, '-', user.email);
+                                    sending.finished++;
+                                    break;
+                                case '2':
+                                case '7':
+                                    console.log('Email queued for sending to:'.magenta, user.username, '-', user.email);
+                                    sending.queued++;
+                                    break;
+                                case '3':
+                                case '8':
+                                    console.log('Email scheduled for sending to:'.magenta, user.username, '-', user.email);
+                                    sending.scheduled++;
+                                    break;
+                                case '4':
+                                case '9':
+                                    console.log('Email was rejected (fake) for sending to:'.red, user.username, '-', user.email);
+                                    sending.rejected++;
+                                    break;
+                                case '5':
+                                case '0':
+                                    console.log('Email was invalid for sending to:'.yellow, user.username, '-', user.email);
+                                    sending.errored++;
+                                    break;
+                            }
+
                             callback();
                         }
                     }
@@ -127,7 +184,7 @@ module.exports = function(q, api, config) {
                     defer.reject(error);
                 }else {
                     sending.running = false;
-                    defer.resolve({ users: created, details: sending });
+                    defer.resolve({ details: sending });
                 }
             });
 

@@ -335,6 +335,9 @@ app.controller('EmailsCtrl', ['$scope', '$state', '$http', '$interval', 'Notific
                     $scope.status.running = status.running;
                     $scope.status.finished = status.finished;
                     $scope.status.errored = status.errored;
+                    $scope.status.queued = status.queued;
+                    $scope.status.rejected = status.rejected;
+                    $scope.status.scheduled = status.scheduled;
                     $scope.status.total = status.total;
 
                     if(!$scope.status.running && statusPromise) $interval.cancel(statusPromise);
