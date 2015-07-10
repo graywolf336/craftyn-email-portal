@@ -41,6 +41,17 @@ module.exports = function(api) {
                 res.status(401).json({ message: 'Not logged in.' });
             }
         },
+        unsubscribe: function(req, res) {
+            if(req.query.email) {
+                api.user.unsubscribe(req.query.email).then(function(user) {
+                    res.json({ message: 'Sorry to see you go, ' + user.username + '! You have successfully been unsubscribed from our future emails, you will miss out on some cool emails!' });
+                }, function(error) {
+                    res.status(error.code).json({ message: error.message, error: error.details });
+                });
+            }else {
+                res.status(400).json({ message: 'An email must be provided to unsubscribe from our future emails.' });
+            }
+        },
         getAll: function(req, res) {
             api.user.getAllFromDatabase().then(function(users) {
                 res.json(users);

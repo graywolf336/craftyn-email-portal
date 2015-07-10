@@ -79,6 +79,7 @@ app.delete('/api/user', user.logout);
 app.get('/api/users', user.ensureAuthenticated, user.getAll);
 app.get('/api/users/performDownload', user.ensureAuthenticated, user.performDownload);
 app.get('/email/:email/:id', user.displayEmail);
+app.get('/unsubscribe', user.unsubscribe);
 
 var emails = require('./server/controllers/emails')(api);
 app.get('/api/emails', user.ensureAuthenticated, emails.retrieveEmails);

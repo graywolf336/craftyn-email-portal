@@ -85,6 +85,19 @@ module.exports = function(q, api, config) {
 
             return defer.promise;
         },
+        unsubscribe: function(email) {
+            var defer = q.defer();
+
+            api.models.User.findOneAndUpdate({ email: email }, { unsubscribed: true }).exec().then(function(user) {
+                console.log(email + ' (' + user.username + ') has unsubscribed to our future emails.');
+                defer.resolve(user);
+            }, function(error) {
+                console.log('Errored out unsubscribing ' + email + ' from future emails.');
+                defer.reject({ code: 500, message: 'An internal error occured unsubscribing you from future emails, please report this to graywolf336.', error: error });
+            });
+
+            return defer.promise;
+        },
         createOrUpdate: function(users) {
             var defer = q.defer();
 
