@@ -1,0 +1,20 @@
+{
+    "url": "https://example.com",
+    "mandrill_api_key": "abc123",
+    "mongo_connection": "mongodb://localhost/email",
+    "redis_session_store_secret": "a secret",
+    "xenapi": {
+        "key": "abc123",
+        "url": "https://www.example.com/api.php"
+    },
+    "email": {
+        "from": {
+            "email": "example@example.com",
+            "name": "Example"
+        },
+        "track": {
+            "opens": true,
+            "clicks": true
+        }
+    }
+}

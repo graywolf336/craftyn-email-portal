@@ -1,0 +1,80 @@
+<div class="row">
+    <div class="col-sm-12">
+        <h1>New Email!</h1>
+    </div>
+    <form class="form-horizontal" name="emailForm" role="form" ng-submit="submit()">
+        <div class="form-group">
+            <label for="subject" class="col-sm-2 control-label">Subject</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="subject" placeholder="Subject" ng-model="email.subject">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="body" class="col-sm-2 control-label">Body (html)</label>
+            <div class="col-sm-10">
+                <text-angular name="body" ng-model="email.body.html"></text-angular>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="bodytext" class="col-sm-2 control-label">Body (text)</label>
+            <div class="col-sm-10">
+                <textarea class="form-control" rows="3" ng-model="email.body.text"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="attached" class="col-sm-2 control-label">Attachments</label>
+            <div class="col-sm-10">
+                <input type="file" ng-model="email.files.attached" name="attached" base-sixty-four-input multiple>
+                <div class="table-responsive margin-top-20px">
+                    <table class="table table-bordered table-striped">
+                        <tr>
+                            <th>File Name</th>
+                            <th>File Type</th>
+                            <th>File Size (<i><small>KB</small></i>)</th>
+                            <th>base64</th>
+                        </tr>
+                        <tr ng-repeat="file in email.files.attached">
+                            <td>{{ file.filename }}</td>
+                            <td>{{ file.filetype }}</td>
+                            <td>{{ file.filesize / 1000}}</td>
+                            <td>{{ file.base64.substring(0, 30) }}...</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" ng-show="files.length == 0">
+                                <small><i>No files selected.</i></small>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="embedded" class="col-sm-2 control-label">Images</label>
+            <div class="col-sm-10">
+                <input type="file" ng-model="email.files.images" name="embedded" base-sixty-four-input multiple accept="image/*">
+                <div class="table-responsive margin-top-20px">
+                    <table class="table table-bordered table-striped">
+                        <tr>
+                            <th>File Name</th>
+                            <th>File Type</th>
+                            <th>File Size (<i><small>KB</small></i>)</th>
+                            <th>base64</th>
+                        </tr>
+                        <tr ng-repeat="file in email.files.images">
+                            <td>{{ file.filename }}</td>
+                            <td>{{ file.filetype }}</td>
+                            <td>{{ file.filesize / 1000}}</td>
+                            <td>{{ file.base64.substring(0, 30) }}...</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" ng-show="files.length == 0">
+                                <small><i>No images selected.</i></small>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" ng-disabled="busy">Submit <i class="glyphicon glyphicon-repeat gly-spin" ng-if="busy"></i></button>
+    </form>
+</div>

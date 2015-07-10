@@ -1,0 +1,46 @@
+<div class="row">
+    <div class="col-sm-4">
+        <h1>Emails</h1>
+    </div>
+    <div class="col-sm-2 col-sm-offset-6 margin-top-20px">
+        <button class="btn btn-primary" ng-disabled="busy" ng-click="addNewEmail()">
+            New Email
+        </button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12" ng-if="status.running">
+        <progressbar class="progress-striped active" max="status.total" value="status.finished + status.errored"><span style="color:white; white-space:nowrap;">{{ status.finished + status.errored }} / {{ status.total }}</span></progressbar>
+    </div>
+    <div class="col-sm-12">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <td>Subject</td>
+                        <td>Date</td>
+                        <td>Status</td>
+                        <td>Action</td>
+                        <td>Count</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="e in emails track by e._id">
+                        <td>{{ e.subject }}</td>
+                        <td>{{ e.date | date }}</td>
+                        <td>{{ e.status }}</td>
+                        <td><button type="button" class="btn btn-default" ng-click="action(e)" ng-disabled="e.status === 'Completed'">{{ e.status === 'New' ? 'Start' : 'Pause' }}</button></td>
+                        <td>{{ e.count.sent + '/' + e.count.goal }}</td>
+                    </tr>
+                    <tr ng-if="!busy && !emails.length">
+                        <td colspan="5">No emails found...</td>
+                    </tr>
+                    <tr ng-if="busy">
+                        <td colspan="5">Loading emails....</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="modal-header">
+    <h1 class="modal-title">Upload Image</h1>
+</div>
+<div class="modal-body">
+    <input type="file" ng-model="file" name="embedded" base-sixty-four-input accept="image/*">
+    <div class="table-responsive margin-top-20px">
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th>File Name</th>
+                <th>File Type</th>
+                <th>File Size (<i><small>KB</small></i>)</th>
+                <th>base64</th>
+            </tr>
+            <tr>
+                <td>{{ file.filename }}</td>
+                <td>{{ file.filetype }}</td>
+                <td>{{ file.filesize / 1000}}</td>
+                <td>{{ file.base64.substring(0, 20) }}...</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="upload()" ng-disabled="file.filename === undefined || busy">Upload</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>

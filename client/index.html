@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="craftynEmailApp">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title ng-bind="title">Craftyn Email Portal</title>
+    <link href="/css/bootstrap.min.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="/css/angular-ui-notification.min.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/textAngular/1.4.1/dist/textAngular.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/angular-loading-bar/0.7.1/loading-bar.min.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="/css/main.css" media="all" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" ng-controller="NavCtrl">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" ng-click="isCollapsed = !isCollapsed">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" ui-sref="email.emails">Craftyn Email Portal</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="top-menu" collapse="isCollapsed" ng-if="user.logged">
+                <ul class="nav navbar-nav navbar-right">
+                    <li ui-sref-active="active"><a ui-sref="email.emails">Emails</a></li>
+                    <li ui-sref-active="active"><a ui-sref="email.users">Users</a></li>
+                    <li ui-sref-active="active"><a ui-sref="email.images">Images</a></li>
+                    <li ng-click="logout()"><a>Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container content" ui-view></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/textAngular/1.4.1/dist/textAngular-rangy.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.0/ui-bootstrap-tpls.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/textAngular/1.4.1/dist/textAngular-sanitize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/textAngular/1.4.1/dist/textAngular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-loading-bar/0.7.1/loading-bar.min.js"></script>
+    <script src="/js/angular-base64-upload.min.js"></script>
+    <script src="/js/angular-ui-notification.min.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>
