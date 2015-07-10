@@ -84,7 +84,7 @@ module.exports = function(q, api, config) {
                     }else {
                         console.log('Now emailing: ' + user.username);
 
-                        var username = user.minecraft === 'N/A' || user.minecraft.toLowerCase() === 'mojang' ? user.username : user.minecraft;
+                        var username = user.minecraft === 'N/A' || user.minecraft.toLowerCase() === 'mojang' || user.minecraft.toLowerCase() === 'premium' ? user.username : user.minecraft;
                         var date = new Date();
                         var message = {
                             html: email.body.html.replace(/\\/g, "").replace(/{url}/g, config.url).replace(/{username}/g, username).replace(/{email}/g, user.email).replace(/{year}/g, date.getFullYear()).replace(/{id}/g, email._id.toString()).replace(/{userid}/g, user._id.toString()),
