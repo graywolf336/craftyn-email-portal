@@ -27,8 +27,6 @@ mongoose.connection.once('open', function (callback) {
     console.log('Mongoose Connection successfully opened.'.green);
 });
 
-//The /client folder contains all the client files
-app.use(express.static('client'));
 //forward ips when we go behind the server
 app.set('trust proxy', true);
 //use regis as the session storage
@@ -95,6 +93,9 @@ app.post('/api/images/:name', user.ensureAuthenticated, images.create);
 //status items
 app.get('/api/status/users', user.ensureAuthenticated, user.checkPerformDownloadStatus);
 app.get('/api/status/emails', user.ensureAuthenticated, emails.getStatus);
+
+//The /client folder contains all the client files
+app.use(express.static('client'));
 
 var server = app.listen(3000, function() {
     console.log('Craftyn Email Application'.cyan + ' started on:'.yellow + ' %s'.red, server.address().port);
