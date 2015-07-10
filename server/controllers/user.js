@@ -101,7 +101,7 @@ module.exports = function(api) {
                         api._.forEach(user.emails, function(e) {
                             if(e.id === req.params.id) {
                                 res.send(e.email);
-                                e.viewed = true;
+                                e.web = true;
                                 user.save();
                                 console.log(req.params.email + ' just viewed their email: ' + req.params.id);
                             }

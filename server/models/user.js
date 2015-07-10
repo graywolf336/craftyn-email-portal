@@ -15,6 +15,6 @@ module.exports = function(mongoose) {
             activity_visible: { type: Boolean, required: true }
         },
         unsubscribed: { type: Boolean, required: true, index: true },
-        emails: [{ email: String, subject: String, id: String, viewed: Boolean }]
+        emails: [{ email: String, subject: String, id: String, viewed: Boolean, web: Boolean }]
     }, { autoIndex: false }));
 }
