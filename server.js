@@ -18,6 +18,7 @@ if(!fs.existsSync('./server/config.json')) {
 
 //Get our configuration
 var config = require('./server/config');
+var serverPackage = require('./package');
 
 //Configure the database connection
 var mongoose = require('mongoose');
@@ -44,6 +45,7 @@ app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: false }));
 app.use(function(req, res, next) {
     req._ = _;
+    res.header('My-Version', serverPackage.version)
     next();
 });
 

@@ -1,6 +1,6 @@
 {
   "name": "craftyn-email-portal",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Email portal for sending pretty emails to Craftyn users.",
   "author": "graywolf336",
   "main": "server.js",
